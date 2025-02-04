@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="bodyAccountClass">
+    <div class="profileDiv">
+        <img src="/profile.png" class="profileImg">
+        <h1 class="userProfileName"><%= user.first_name%></h1>
+    </div>
+    <div class="userFormsDiv">
+        <label for="membershipCode" class="membershipLabel">Enter special password</label>
+        <input name="membershipCode" type="text" class="membershipInput">
+        <button type="submit" class="submitMembershipBtn">Submit</button> 
+        <label for="adminCode" class="membershipLabel">Enter admin password</label>
+        <input name="adminCode" type="text" class="membershipInput"> 
+        <button type="submit" class="submitMembershipBtn">Submit</button>
+    </div>
+    <a href="/logout">Log out</a>
+</body>
+</html>

@@ -7,6 +7,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
+const { error } = require("node:console");
 
 const pool = new Pool({
   user: "dulebondok",
@@ -22,14 +23,15 @@ app.set("view engine", "ejs");
 
 app.use(session({ secret: "cats", resave: "false", saveUninitialized: false }));
 app.use(passport.session());
+app.use(passport.initialize());
 app.use(express.urlencoded({ extended: false }));
 
 app.get("/", (req, res) => {
-  res.render("login");
+  res.render("login", {user: req.user || null, error: null});
 });
 
 app.get("/sign-up", (req, res) => {
-  res.render("signup", {errors: []});
+  res.render("signup", { errors: [] });
 });
 
 app.post(
@@ -61,15 +63,14 @@ app.post(
     }),
   ],
   async (req, res, next) => {
-    const errors =validationResult(req);
-    if(!errors.isEmpty()) {
-        return res.render("signup", {errors: errors.array()});
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.render("signup", { errors: errors.array() });
     }
-    const password = req.body.signUpPassword;
-    const confirmPassword = req.body.confirmPassword;
+
     try {
-      if (password === confirmPassword) {
-        const hashedPassword = await bcrypt.hash(password, 10);
+      
+        const hashedPassword = await bcrypt.hash(req.body.signUpPassword, 10);
         await pool.query(
           "INSERT INTO members (first_name, last_name, email, membership, password) VALUES ($1, $2, $3, $4, $5)",
           [
@@ -80,16 +81,76 @@ app.post(
             hashedPassword,
           ]
         );
-        console.log("Passwords match exactly!");
+        console.log("User registered sucessfully!");
         res.redirect("/");
-      } else {
-        console.log("Passwords dont match!");
-      }
     } catch (error) {
       console.error(error);
       next(error);
     }
   }
 );
+
+passport.use(
+  new LocalStrategy(
+    {usernameField: "logInEmail", passwordField: "logInPassword"},
+    async (logInEmail, logInPassword, done) => {
+    try {
+      const { rows } = await pool.query(
+        "SELECT * FROM members WHERE email = $1",
+        [logInEmail]
+      );
+      const user = rows[0];
+
+      if (!user) {
+        return done(null, false, { message: "Incorrect email address!" });
+      }
+
+      const match = await bcrypt.compare(logInPassword, user.password);
+      if (!match) {
+        return done(null, false, { message: "Incorrect password!" });
+      }
+      return done(null, user);
+    } catch (err) {
+      return done(err);
+    }
+  })
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const { rows } = await pool.query("SELECT * FROM members WHERE id = $1", [
+      id,
+    ]);
+    const user = rows[0];
+    done(null, user);
+  } catch (err) {
+    done(err);
+  }
+});
+
+app.post("/login", passport.authenticate("local", {
+    successRedirect: "/account",
+    failureRedirect: "/",
+}));
+
+app.get("/logout",(req,res,next) => {
+    req.logout((err) => {
+        if(err) {
+            return next(err);
+        }
+        res.redirect("/");
+    });
+});
+
+app.get("/account", (req,res) => {
+    if(!req.isAuthenticated()) {
+        return res.redirect("/");
+    }
+    res.render("account", {user:req.user});
+})
 
 app.listen(3000, () => console.log("App listening on port 3000"));

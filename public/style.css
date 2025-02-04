@@ -8,11 +8,15 @@
     margin: 0;
 }
 
-body {
+.bodyclass {
     background-color: rgb(20, 0, 58);
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.bodyAccountClass {
+    background-color:rgb(20, 0, 58) ;
 }
 
 .logInDiv {
@@ -141,5 +145,55 @@ body {
     flex-direction: row;
     margin-top: 0.2vh;
     margin-left: 0.4vh;
+}
+
+.profileImg {
+    width: 12vw;
+}
+
+.profileDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    position: relative;
+    left: 44vw;
+    top: 5vh;
+    width: fit-content;
+    align-items: center;
+}
+
+.userProfileName {
+    color: orangered;
+    font-family: Chewy;
+}
+
+.userFormsDiv {
+    display: flex;
+    flex-direction: column;
+    width: 22vw;
+}
+
+.membershipLabel {
+    color: orange;
+    font-family: Chewy;
+    font-size: 2rem;
+    margin-top: 2vh;
+    font-weight: 100;
+}
+.membershipInput {
+    background-color: rgb(49, 49, 49);
+    height: 3vh;
+    border-radius: 1vh;
+    width: 14vw;
+    outline: none;
+    border: 1px solid black;
+    color: white;
+    font-size: 1.6rem;
+    padding: 0.5vh;
+    font-family: Chewy;
+}
+
+.submitMembershipBtn {
+    width: 10vw;
 }
 

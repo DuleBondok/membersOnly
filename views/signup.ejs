@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css" />
+    <title>Login</title>
+  </head>
+  <body>
+    <div class="signUpDiv">
+      <h1 class="logInHeader">Sign up</h1>
+      <div class="signUpInputDiv">
+        <% if (errors && errors.length > 0) { %>
+            <ul class="error-messages">
+              <% errors.forEach(error => { %>
+                <li style="color: white;"><%= error.msg %></li>
+              <% }); %>
+            </ul>
+          <% } %>
+        <form style="display: flex; flex-direction: column;" method="post" action="">
+          <label for="firstName" class="logInLabel">First name</label>
+          <input type="text" name="firstName" class="logInInput" />
+          <label for="lastName" class="logInLabel">Last name</label>
+          <input type="text" name="lastName" class="logInInput" />
+          <label for="signUpEmail" class="logInLabel">Email</label>
+          <input type="email" name="signUpEmail" class="logInInput" />
+          <label for="signUpPassword" class="logInLabel">Password</label>
+          <input type="password" name="signUpPassword" class="logInInput" />
+          <label for="confirmPassword" class="logInLabel"
+            >Confirm Password</label
+          >
+          <input type="password" name="confirmPassword" class="logInInput" />
+          <button type="submit" class="logInButton">SIGN UP</button>
+        </form>
+      </div>
+      <div class="backToLoginDiv">
+        <h1 class="noAccHeader">Already have an account?</h1>
+        <a href="/" class="signUpLink">Log in</a>
+      </div>
+    </div>
+  </body>
+</html>

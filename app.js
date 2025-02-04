@@ -27,7 +27,7 @@ app.use(passport.initialize());
 app.use(express.urlencoded({ extended: false }));
 
 app.get("/", (req, res) => {
-  res.render("login", {user: req.user || null, error: null});
+  res.render("login", { user: req.user || null, error: null });
 });
 
 app.get("/sign-up", (req, res) => {
@@ -69,20 +69,19 @@ app.post(
     }
 
     try {
-      
-        const hashedPassword = await bcrypt.hash(req.body.signUpPassword, 10);
-        await pool.query(
-          "INSERT INTO members (first_name, last_name, email, membership, password) VALUES ($1, $2, $3, $4, $5)",
-          [
-            req.body.firstName,
-            req.body.lastName,
-            req.body.signUpEmail,
-            "Standard",
-            hashedPassword,
-          ]
-        );
-        console.log("User registered sucessfully!");
-        res.redirect("/");
+      const hashedPassword = await bcrypt.hash(req.body.signUpPassword, 10);
+      await pool.query(
+        "INSERT INTO members (first_name, last_name, email, membership, password) VALUES ($1, $2, $3, $4, $5)",
+        [
+          req.body.firstName,
+          req.body.lastName,
+          req.body.signUpEmail,
+          "Standard",
+          hashedPassword,
+        ]
+      );
+      console.log("User registered sucessfully!");
+      res.redirect("/");
     } catch (error) {
       console.error(error);
       next(error);
@@ -92,28 +91,29 @@ app.post(
 
 passport.use(
   new LocalStrategy(
-    {usernameField: "logInEmail", passwordField: "logInPassword"},
+    { usernameField: "logInEmail", passwordField: "logInPassword" },
     async (logInEmail, logInPassword, done) => {
-    try {
-      const { rows } = await pool.query(
-        "SELECT * FROM members WHERE email = $1",
-        [logInEmail]
-      );
-      const user = rows[0];
+      try {
+        const { rows } = await pool.query(
+          "SELECT * FROM members WHERE email = $1",
+          [logInEmail]
+        );
+        const user = rows[0];
 
-      if (!user) {
-        return done(null, false, { message: "Incorrect email address!" });
-      }
+        if (!user) {
+          return done(null, false, { message: "Incorrect email address!" });
+        }
 
-      const match = await bcrypt.compare(logInPassword, user.password);
-      if (!match) {
-        return done(null, false, { message: "Incorrect password!" });
+        const match = await bcrypt.compare(logInPassword, user.password);
+        if (!match) {
+          return done(null, false, { message: "Incorrect password!" });
+        }
+        return done(null, user);
+      } catch (err) {
+        return done(err);
       }
-      return done(null, user);
-    } catch (err) {
-      return done(err);
     }
-  })
+  )
 );
 
 passport.serializeUser((user, done) => {
@@ -132,25 +132,68 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-app.post("/login", passport.authenticate("local", {
+app.post(
+  "/login",
+  passport.authenticate("local", {
     successRedirect: "/account",
     failureRedirect: "/",
-}));
+  })
+);
 
-app.get("/logout",(req,res,next) => {
-    req.logout((err) => {
-        if(err) {
-            return next(err);
-        }
-        res.redirect("/");
-    });
+app.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
 });
 
-app.get("/account", (req,res) => {
-    if(!req.isAuthenticated()) {
-        return res.redirect("/");
-    }
-    res.render("account", {user:req.user});
-})
+app.get("/account", (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.redirect("/");
+  }
+  res.render("account", { user: req.user });
+});
+
+app.post("/submit-message", async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).send("You must be logged in to send messages!");
+  }
+
+  const { newMsg } = req.body;
+  const userId = req.user.id;
+
+  if (!newMsg.trim()) {
+    return res.redirect("/account");
+  }
+
+  try {
+    await pool.query(
+      "INSERT INTO messages (user_id, message) VALUES ($1, $2)",
+      [userId, newMsg]
+    );
+    res.redirect("/account");
+  } catch (error) {
+    console.error("Error inserting message: ", error);
+    res.status(500).send("Error saving message!");
+  }
+});
+
+app.get("/homepage", async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.redirect("/");
+  }
+
+  try {
+    const messages = await pool.query(
+      "SELECT messages.message, messages.created_at, members.first_name FROM messages JOIN members ON messages.user_id = members.id ORDER BY messages.created_at DESC"
+    );
+    res.render("homepage", { user: req.user, messages: messages.rows });
+  } catch (error) {
+    console.error("Error fetching messages:", error);
+    res.status(500).send("Error loading messages");
+  }
+});
 
 app.listen(3000, () => console.log("App listening on port 3000"));

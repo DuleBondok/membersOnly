@@ -19,6 +19,14 @@
         <input name="adminCode" type="text" class="membershipInput"> 
         <button type="submit" class="submitMembershipBtn">Submit</button>
     </div>
-    <a href="/logout">Log out</a>
+    <div class="addNewMsgDiv">
+        <form style="display: flex; flex-direction: column;" method="post" action="/submit-message">
+            <label for="newMsg" class="newMsgLabel">New message</label>
+            <input name="newMsg" class="newMsgInput">
+            <button type="submit" class="submitMembershipBtn">Submit</button>
+        </form>
+    </div>
+    <button class="logOutButton"><a href="/logout" style="text-decoration: none;">Log out</a></button>
+    <a href="/homepage">Homepage</a>
 </body>
 </html>

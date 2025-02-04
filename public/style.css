@@ -1,199 +1,247 @@
 @font-face {
-    font-family: Chewy;
-    src: url(./fonts/Chewy.ttf);
+  font-family: Chewy;
+  src: url(./fonts/Chewy.ttf);
 }
 
 * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 .bodyclass {
-    background-color: rgb(20, 0, 58);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  background-color: rgb(20, 0, 58);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .bodyAccountClass {
-    background-color:rgb(20, 0, 58) ;
+  background-color: rgb(20, 0, 58);
 }
 
 .logInDiv {
-    background-color: black;
-    display: flex;
-    flex-direction: column;
-    height: 50vh;
-    width: 22vw;
-    top: 20vh;
-    position: relative;
-    box-shadow: rgba(0, 0, 0, 0.555) 0px 7px 29px 0px;
-    border-radius: 2vh;
-    align-items: center;
-    padding: 1vh;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  height: 50vh;
+  width: 22vw;
+  top: 20vh;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.555) 0px 7px 29px 0px;
+  border-radius: 2vh;
+  align-items: center;
+  padding: 1vh;
 }
 
 .signUpDiv {
-    background-color: black;
-    display: flex;
-    flex-direction: column;
-    height: 78vh;
-    width: 22vw;
-    top: 4vh;
-    position: relative;
-    box-shadow: rgba(0, 0, 0, 0.555) 0px 7px 29px 0px;
-    border-radius: 2vh;
-    align-items: center;
-    padding: 1vh;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  height: 78vh;
+  width: 22vw;
+  top: 4vh;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.555) 0px 7px 29px 0px;
+  border-radius: 2vh;
+  align-items: center;
+  padding: 1vh;
 }
 
 .logInHeader {
-    color: orangered;
-    font-family: Chewy;
-    margin-top: 1vh;
-    letter-spacing: 0.3rem;
-    font-size: 2.8rem;
+  color: orangered;
+  font-family: Chewy;
+  margin-top: 1vh;
+  letter-spacing: 0.3rem;
+  font-size: 2.8rem;
 }
 
 .logInLabel {
-    color: orange;
-    font-family: Chewy;
-    font-size: 2rem;
-    margin-top: 2vh;
-    font-weight: 100;
+  color: orange;
+  font-family: Chewy;
+  font-size: 2rem;
+  margin-top: 2vh;
+  font-weight: 100;
 }
 
 .logInInput {
-    background-color: rgb(49, 49, 49);
-    height: 3vh;
-    border-radius: 1vh;
-    width: 14vw;
-    outline: none;
-    border: 1px solid black;
-    color: white;
-    font-size: 1.6rem;
-    padding: 0.5vh;
-    font-family: Chewy;
+  background-color: rgb(49, 49, 49);
+  height: 3vh;
+  border-radius: 1vh;
+  width: 14vw;
+  outline: none;
+  border: 1px solid black;
+  color: white;
+  font-size: 1.6rem;
+  padding: 0.5vh;
+  font-family: Chewy;
 }
 
 .logInInputDiv {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2vh;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2vh;
 }
 
 .signUpInputDiv {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2vh;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2vh;
 }
 
 .logInButton {
-    height: 4vh;
-    border-radius: 1vh;
-    background-color: orangered;
-    color: black;
-    font-family: Chewy;
-    font-size: 1.6rem;
-    outline: none;
-    border: 1px solid black;
-    margin-top: 2vh;
+  height: 4vh;
+  border-radius: 1vh;
+  background-color: orangered;
+  color: black;
+  font-family: Chewy;
+  font-size: 1.6rem;
+  outline: none;
+  border: 1px solid black;
+  margin-top: 2vh;
 }
 
 .logInButton:hover {
-    cursor: pointer;
-    background-color: rgb(255, 30, 0);
-
+  cursor: pointer;
+  background-color: rgb(255, 30, 0);
 }
 
 .signUpIfNoAccDiv {
-    display: flex;
-    flex-direction: row;
-    margin-top: 4vh;
+  display: flex;
+  flex-direction: row;
+  margin-top: 4vh;
 }
 
 .backToLoginDiv {
-    display: flex;
-    flex-direction: row;
-    margin-top: 4vh;  
-} 
+  display: flex;
+  flex-direction: row;
+  margin-top: 4vh;
+}
 
 .noAccHeader {
-    color: orange;
-    font-size: 1rem;
-    font-family: Chewy;
-    letter-spacing: 0.08rem;
+  color: orange;
+  font-size: 1rem;
+  font-family: Chewy;
+  letter-spacing: 0.08rem;
 }
 
 .signUpLink {
-    color: orangered;
-    text-decoration: none;
-    font-size: 1rem;
-    letter-spacing: 0.08rem;
-    font-family: Chewy;
-    margin-left: 0.7vh;
+  color: orangered;
+  text-decoration: none;
+  font-size: 1rem;
+  letter-spacing: 0.08rem;
+  font-family: Chewy;
+  margin-left: 0.7vh;
 }
 
 .signUpLink:hover {
-    cursor: pointer;
-    color: rgb(255, 17, 0);
-
+  cursor: pointer;
+  color: rgb(255, 17, 0);
 }
 
 .changePasswordDiv {
-    display: flex;
-    flex-direction: row;
-    margin-top: 0.2vh;
-    margin-left: 0.4vh;
+  display: flex;
+  flex-direction: row;
+  margin-top: 0.2vh;
+  margin-left: 0.4vh;
 }
 
 .profileImg {
-    width: 12vw;
+  width: 12vw;
 }
 
 .profileDiv {
-    display: flex;
-    flex-direction: column;
-    gap: 2vh;
-    position: relative;
-    left: 44vw;
-    top: 5vh;
-    width: fit-content;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  position: relative;
+  left: 44vw;
+  top: 5vh;
+  width: fit-content;
+  align-items: center;
 }
 
 .userProfileName {
-    color: orangered;
-    font-family: Chewy;
+  color: orangered;
+  font-family: Chewy;
 }
 
 .userFormsDiv {
-    display: flex;
-    flex-direction: column;
-    width: 22vw;
+  display: flex;
+  flex-direction: column;
+  width: 22vw;
+  position: absolute;
+  top: 40vh;
+  left: 20vw;
+  align-items: center;
 }
 
 .membershipLabel {
-    color: orange;
-    font-family: Chewy;
-    font-size: 2rem;
-    margin-top: 2vh;
-    font-weight: 100;
+  color: orange;
+  font-family: Chewy;
+  font-size: 2rem;
+  margin-top: 2vh;
+  font-weight: 100;
 }
 .membershipInput {
-    background-color: rgb(49, 49, 49);
-    height: 3vh;
-    border-radius: 1vh;
-    width: 14vw;
-    outline: none;
-    border: 1px solid black;
-    color: white;
-    font-size: 1.6rem;
-    padding: 0.5vh;
-    font-family: Chewy;
+  background-color: rgb(49, 49, 49);
+  height: 3vh;
+  border-radius: 1vh;
+  width: 14vw;
+  outline: none;
+  border: 1px solid black;
+  color: white;
+  font-size: 1.6rem;
+  padding: 0.5vh;
+  font-family: Chewy;
 }
 
 .submitMembershipBtn {
-    width: 10vw;
+  width: 10vw;
+  margin-top: 2vh;
+  height: 4vh;
+  font-family: Chewy;
+  background-color: orangered;
 }
 
+.submitMembershipBtn:hover {
+  cursor: pointer;
+  background-color: rgb(255, 17, 0);
+}
+
+.logOutButton {
+  position: absolute;
+  top: 2vh;
+  right: 5vh;
+  height: 4vh;
+  width: 7vw;
+  background-color: orangered;
+}
+
+.addNewMsgDiv {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 20vw;
+  top: 40vh;
+}
+
+.newMsgLabel {
+  color: orange;
+  font-family: Chewy;
+  font-size: 2rem;
+  margin-top: 2vh;
+  font-weight: 100;
+}
+
+.newMsgInput {
+  background-color: rgb(49, 49, 49);
+  height: 3vh;
+  border-radius: 1vh;
+  width: 14vw;
+  outline: none;
+  border: 1px solid black;
+  color: white;
+  font-size: 1.6rem;
+  padding: 0.5vh;
+  font-family: Chewy;
+}

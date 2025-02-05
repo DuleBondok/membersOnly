@@ -12,12 +12,16 @@
         <h1 class="userProfileName"><%= user.first_name%></h1>
     </div>
     <div class="userFormsDiv">
-        <label for="membershipCode" class="membershipLabel">Enter special password</label>
-        <input name="membershipCode" type="text" class="membershipInput">
-        <button type="submit" class="submitMembershipBtn">Submit</button> 
-        <label for="adminCode" class="membershipLabel">Enter admin password</label>
-        <input name="adminCode" type="text" class="membershipInput"> 
-        <button type="submit" class="submitMembershipBtn">Submit</button>
+        <form style="display: flex; flex-direction: column;" action="/upgrade-membership" method="post">
+            <label for="membershipCode" class="membershipLabel">Enter special password</label>
+            <input name="membershipCode" type="password" class="membershipInput">
+            <button type="submit" class="submitMembershipBtn">Submit</button> 
+        </form>
+        <form style="display: flex; flex-direction: column;" method="post" action="/admin-membership">
+            <label for="adminCode" class="membershipLabel">Enter admin password</label>
+            <input name="adminCode" type="password" class="membershipInput"> 
+            <button type="submit" class="submitMembershipBtn">Submit</button>
+        </form>
     </div>
     <div class="addNewMsgDiv">
         <form style="display: flex; flex-direction: column;" method="post" action="/submit-message">

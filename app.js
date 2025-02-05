@@ -196,4 +196,55 @@ app.get("/homepage", async (req, res) => {
   }
 });
 
+app.post("/upgrade-membership", async(req,res) => {
+    const {membershipCode} = req.body;
+    const specialPassword = "special";
+    const userId = req.user?.id;
+
+    if(!userId) {
+        return res.redirect("/");
+    }
+
+    if(membershipCode === specialPassword) {
+        try {
+            await pool.query("UPDATE members SET membership = $1 WHERE id = $2", ["Premium", userId]);
+            console.log("Membership updated sucessfully");
+        }
+        catch(error) {
+            console.error("Error upgrading membership", error);
+        }
+    }
+    else {
+        console.log("Incorrect special password!");
+    }
+
+    res.redirect("/account");
+});
+
+app.post("/admin-membership", async(req,res) => {
+    const {adminCode} = req.body;
+    const adminPassword = "admin";
+    const userId = req.user?.id;
+
+    if(!userId) {
+        return res.redirect("/");
+    }
+
+    if(adminCode === adminPassword) {
+        try {
+            await pool.query("UPDATE members SET membership = $1 WHERE id = $2", ["Admin", userId]);
+            console.log("Membership updated sucessfully");
+        }
+        catch(error) {
+            console.error("Error upgrading membership", error);
+        }
+    }
+    else {
+        console.log("Incorrect admin password!");
+    }
+
+    res.redirect("/account");
+
+})
+
 app.listen(3000, () => console.log("App listening on port 3000"));

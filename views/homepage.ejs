@@ -4,14 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
-<body>
-    <h1>Messages</h1>
-    <ul>
+<body class="homepageBody">
+    <h1 class="homepageHeader">Homepage</h1>
+    <div class="messagesDiv">
         <% messages.forEach(msg => { %>
-          <li><strong><%= msg.first_name %></strong>: <%= msg.message %> (at <%= msg.created_at.toLocaleString() %>)</li>
+          <div class="userMessage"> 
+            <img src="/profile.png" class="messageProfileImg">
+            <div class="messageInformationDiv">
+                <% if (user && user.membership === "Premium") { %>
+                    <h1 class="messageUserName"><%= msg.first_name %></h1>
+                    <h1 class="messageTime"><%= msg.created_at.toLocaleString() %></h1>
+                <% } %>
+                <% if(user && user.membership === "Admin") { %>
+                    <h1 class="messageUserName"><%= msg.first_name %></h1>
+                    <h1 class="messageTime"><%= msg.created_at.toLocaleString() %></h1>
+                    <button class="removeMsgBtn">Remove</button>
+                <% } %>
+                <h1 class="messageText"><%= msg.message %> </h1>
+           </div>
+          </div>
         <% }) %>
-      </ul>
+    </div>
     
 </body>
 </html>

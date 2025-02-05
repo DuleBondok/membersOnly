@@ -245,3 +245,71 @@
   padding: 0.5vh;
   font-family: Chewy;
 }
+
+.homepageBody {
+    background-color: rgb(20, 0, 58);
+}
+
+.homepageHeader {
+    font-family: Chewy;
+    color: orangered;
+    font-size: 2.8rem;
+    letter-spacing: 0.4rem;
+    width: fit-content;
+    
+    position: relative;
+    top: 2vh;
+    left: 44vw;
+}
+
+.messagesDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 5vh;
+    position: relative;
+    left: 5vw;
+    top: 10vh;
+    width: 90vw;
+}
+
+.userMessage {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.247);
+    height: 12vh;
+}
+
+.messageProfileImg {
+    height: 10vh;
+}
+
+.messageInformationDiv {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1vw;
+}
+
+.messageUserName {
+    color: orange;
+    font-family: Chewy;
+    font-size: 1.6rem;
+}
+
+.messageText {
+    font-family: Chewy;
+    font-size: 1.5rem;
+    color: orangered;
+    margin-left: 1vw;
+}
+
+.messageTime {
+    font-family: Chewy;
+    font-size: 0.8rem;
+    color: beige;
+}
+
+.removeMsgBtn {
+    position: absolute;
+    right: 10vw;
+    margin-top: 3vh;
+}

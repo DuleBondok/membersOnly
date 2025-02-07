@@ -10,23 +10,25 @@
     <h1 class="homepageHeader">Homepage</h1>
     <div class="messagesDiv">
         <% messages.forEach(msg => { %>
-          <div class="userMessage"> 
-            <img src="/profile.png" class="messageProfileImg">
-            <div class="messageInformationDiv">
-                <% if (user && user.membership === "Premium") { %>
-                    <h1 class="messageUserName"><%= msg.first_name %></h1>
-                    <h1 class="messageTime"><%= msg.created_at.toLocaleString() %></h1>
-                <% } %>
-                <% if(user && user.membership === "Admin") { %>
-                    <h1 class="messageUserName"><%= msg.first_name %></h1>
-                    <h1 class="messageTime"><%= msg.created_at.toLocaleString() %></h1>
-                    <button class="removeMsgBtn">Remove</button>
-                <% } %>
-                <h1 class="messageText"><%= msg.message %> </h1>
-           </div>
-          </div>
+            <div class="userMessage" id="message-<%= msg.id %>">
+                <img src="/profile.png" class="messageProfileImg">
+                <div class="messageInformationDiv">
+                    <% if (user && (user.membership === "Premium" || user.membership === "Admin")) { %>
+                        <h1 class="messageUserName"><%= msg.first_name %></h1>
+                        <h1 class="messageTime"><%= msg.created_at.toLocaleString() %></h1>
+                    <% } %>
+                    <h1 class="messageText"><%= msg.message %> </h1>
+                
+                    <% if (user && user.membership === "Admin") { %>
+                        <form action="/delete-message/<%= msg.id %>" method="POST">
+                            <button type="submit" class="removeMsgBtn">Remove</button>
+                        </form>
+                    <% } %>
+                </div>
+            </div>
         <% }) %>
     </div>
+    <button class="logOutButton"><a href="/account" style="text-decoration: none;">Account</a></button>
     
 </body>
 </html>

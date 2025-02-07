@@ -310,6 +310,14 @@
 
 .removeMsgBtn {
     position: absolute;
-    right: 10vw;
-    margin-top: 3vh;
+    right: 10vh;
+}
+
+.homePageButton {
+    position: absolute;
+    top: 2vh;
+    left: 5vh;
+    height: 4vh;
+    width: 7vw;
+    background-color: orangered;
 }

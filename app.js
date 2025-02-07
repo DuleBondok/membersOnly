@@ -8,6 +8,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const { error } = require("node:console");
+const methodOverride = require("method-override");
 
 const pool = new Pool({
   user: "dulebondok",
@@ -25,6 +26,8 @@ app.use(session({ secret: "cats", resave: "false", saveUninitialized: false }));
 app.use(passport.session());
 app.use(passport.initialize());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(methodOverride("_method"));
 
 app.get("/", (req, res) => {
   res.render("login", { user: req.user || null, error: null });
@@ -187,7 +190,7 @@ app.get("/homepage", async (req, res) => {
 
   try {
     const messages = await pool.query(
-      "SELECT messages.message, messages.created_at, members.first_name FROM messages JOIN members ON messages.user_id = members.id ORDER BY messages.created_at DESC"
+      "SELECT messages.id, messages.message, messages.created_at, members.first_name FROM messages JOIN members ON messages.user_id = members.id ORDER BY messages.created_at DESC"
     );
     res.render("homepage", { user: req.user, messages: messages.rows });
   } catch (error) {
@@ -196,55 +199,79 @@ app.get("/homepage", async (req, res) => {
   }
 });
 
-app.post("/upgrade-membership", async(req,res) => {
-    const {membershipCode} = req.body;
-    const specialPassword = "special";
-    const userId = req.user?.id;
+app.post("/upgrade-membership", async (req, res) => {
+  const { membershipCode } = req.body;
+  const specialPassword = "special";
+  const userId = req.user?.id;
 
-    if(!userId) {
-        return res.redirect("/");
-    }
+  if (!userId) {
+    return res.redirect("/");
+  }
 
-    if(membershipCode === specialPassword) {
-        try {
-            await pool.query("UPDATE members SET membership = $1 WHERE id = $2", ["Premium", userId]);
-            console.log("Membership updated sucessfully");
-        }
-        catch(error) {
-            console.error("Error upgrading membership", error);
-        }
+  if (membershipCode === specialPassword) {
+    try {
+      await pool.query("UPDATE members SET membership = $1 WHERE id = $2", [
+        "Premium",
+        userId,
+      ]);
+      console.log("Membership updated sucessfully");
+    } catch (error) {
+      console.error("Error upgrading membership", error);
     }
-    else {
-        console.log("Incorrect special password!");
-    }
+  } else {
+    console.log("Incorrect special password!");
+  }
 
-    res.redirect("/account");
+  res.redirect("/account");
 });
 
-app.post("/admin-membership", async(req,res) => {
-    const {adminCode} = req.body;
-    const adminPassword = "admin";
-    const userId = req.user?.id;
+app.post("/admin-membership", async (req, res) => {
+  const { adminCode } = req.body;
+  const adminPassword = "admin";
+  const userId = req.user?.id;
 
-    if(!userId) {
-        return res.redirect("/");
+  if (!userId) {
+    return res.redirect("/");
+  }
+
+  if (adminCode === adminPassword) {
+    try {
+      await pool.query("UPDATE members SET membership = $1 WHERE id = $2", [
+        "Admin",
+        userId,
+      ]);
+      console.log("Membership updated sucessfully");
+    } catch (error) {
+      console.error("Error upgrading membership", error);
     }
+  } else {
+    console.log("Incorrect admin password!");
+  }
 
-    if(adminCode === adminPassword) {
-        try {
-            await pool.query("UPDATE members SET membership = $1 WHERE id = $2", ["Admin", userId]);
-            console.log("Membership updated sucessfully");
-        }
-        catch(error) {
-            console.error("Error upgrading membership", error);
-        }
-    }
-    else {
-        console.log("Incorrect admin password!");
-    }
+  res.redirect("/account");
+});
 
-    res.redirect("/account");
+app.post("/delete-message/:id", async (req, res) => {
+  console.log("Delete request received for message ID:", req.params.id);
 
-})
+  if (!req.isAuthenticated()) {
+    return res
+      .status(403)
+      .json({ success: false, message: "Unauthorized: Not logged in" });
+  }
+
+  if (req.user.membership !== "Admin") {
+    return res
+      .status(403)
+      .json({ success: false, message: "Unauthorized: Not an Admin" });
+  }
+  try {
+    await pool.query("DELETE FROM messages WHERE id = $1", [req.params.id]);
+    res.redirect("/homepage");
+  } catch (err) {
+    console.error("Error deleting message:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
 
 app.listen(3000, () => console.log("App listening on port 3000"));
